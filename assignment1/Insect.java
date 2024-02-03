@@ -11,7 +11,7 @@ public abstract class Insect {
         return this.tile;
     }
 
-    public final int getHelp() {
+    public final int getHealth() {
         return this.hp;
     }
 
