@@ -25,7 +25,15 @@ public class SwarmOfHornets {
     }
 
     public Hornet[] getHornets() {
-        return this.hornetList;
+        Hornet[] list = new Hornet[size];
+        int idx = 0;
+        for(int i=0; i<this.size; i++) {
+            if (hornetList[i] != null) {
+                list[idx] = hornetList[i];
+                idx++;
+            }
+        }
+        return list;
     }
 
     public Hornet getFirstHornet() {
