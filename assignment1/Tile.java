@@ -7,6 +7,7 @@ public class Tile {
     private Tile hiveToNest;
     private HoneyBee bee;
     private SwarmOfHornets hornets;
+    private boolean isOnFire = false; //set it in constructor or not?
 
     public Tile() {
         this.hiveBuilt = false;
@@ -24,6 +25,11 @@ public class Tile {
         this.food = food;
         this.bee = bee;
         this.hornets = hornets;
+    }
+
+    public String toString() {
+        String text = "food cost is: " + this.food;
+        return text;
     }
 
     public boolean isHive() {
@@ -65,10 +71,11 @@ public class Tile {
     }
 
     public void createPath(Tile tile1, Tile tile2) {
-        if ((tile1 == null && !tile1.isHive()) || (!tile2.isNest() && tile2 == null)) { //come back to this
-            throw new IllegalArgumentException("invalid tile");
+        if ((tile1 == null || tile2 == null) && (!this.hiveBuilt && !this.nestBuilt)) {
+            throw new IllegalArgumentException("unable to create path, check if tiles are valid");
         }
         else {
+            System.out.println("made into a tile");
             this.nestToHive = tile1;
             this.hiveToNest = tile2;
             this.partOfPath = true;
@@ -102,7 +109,7 @@ public class Tile {
     }
 
     public boolean addInsect(Insect insect) {
-        if (insect instanceof HoneyBee && this.bee == null && !this.isNest()) {
+        if (insect instanceof HoneyBee && this.bee == null && !this.isHive()) {
             this.bee = (HoneyBee) insect;
             insect.setPosition(this);
             return true;
@@ -118,15 +125,26 @@ public class Tile {
     }
 
     public boolean removeInsect(Insect insect) { //error?
-        if (insect instanceof Hornet) {
+        if (insect instanceof Hornet && insect != null) {
             hornets.removeHornet((Hornet) insect);
             insect.setPosition(null);
             return true;
         }
-        else {
+        else if (insect instanceof HoneyBee && insect != null) {
             this.bee = null;
             insect.setPosition(null);
             return true;
         }
+        else {
+            return false;
+        }
+    }
+
+    public void setOnFire() {
+        this.isOnFire = true;
+    }
+
+    public boolean isOnFire() {
+        return this.isOnFire;
     }
 }

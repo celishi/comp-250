@@ -7,5 +7,25 @@ public class AngryBee extends HoneyBee {
         super(tile, BASE_HEALTH, BASE_COST);
         this.atk = atk;
     }
+
+    public boolean takeAction() {
+        Tile tile = this.getPosition();
+        if(tile.isOnThePath()) {
+            if (tile.getHornet() != null) {
+                tile.getHornet().takeDamage(atk);
+                return true;
+            }
+            else if (tile.towardTheNest().getHornet() != null) {
+                tile.towardTheNest().getHornet().takeDamage(atk);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
     
 }

@@ -1,27 +1,28 @@
 public class test {
     public static void main(String[] args) {
-        SwarmOfHornets swarm = new SwarmOfHornets();
+        // SwarmOfHornets swarm = new SwarmOfHornets();
+        // Hornet hornet = new Hornet(null, 0, 1);
 
-        for(int i=1; i<5; i++) {
-            swarm.addHornet(new Hornet(null, 0, 1));
-        }
+        // for(int i=1; i<5; i++) {
+        //     swarm.addHornet(hornet);
+        // }
+        // // System.out.println(swarm.toString());
+        // System.out.println("size is: " + swarm.sizeOfSwarm());
+        // Hornet specialHornet = new Hornet(null, 10, 0);
+        // Hornet normalHornet = new Hornet(null, 0, 0);
+        // swarm.addHornet(specialHornet);
+        // for(int i=1; i<5; i++) {
+        //     swarm.addHornet(normalHornet);
+        // }
         // System.out.println(swarm.toString());
         // System.out.println("size is: " + swarm.sizeOfSwarm());
-        Hornet specialHornet = new Hornet(null, 10, 0);
-        Hornet normalHornet = new Hornet(null, 0, 0);
-        swarm.addHornet(specialHornet);
-        for(int i=1; i<5; i++) {
-            swarm.addHornet(normalHornet);
-        }
-        System.out.println(swarm.toString());
-        System.out.println("size is: " + swarm.sizeOfSwarm());
 
-        swarm.removeHornet(specialHornet);
-        System.out.println(swarm.toString());
-        System.out.println("size is: " + swarm.sizeOfSwarm());
+        // swarm.removeHornet(specialHornet);
+        // System.out.println(swarm.toString());
+        // System.out.println("size is: " + swarm.sizeOfSwarm());
 
-        boolean var = false;
-        System.out.println(var);
+        // boolean var = false;
+        // System.out.println(var);
 
         // Hornet[] list = {normalHornet, normalHornet, specialHornet, normalHornet};
         // int size = list.length;
@@ -38,7 +39,23 @@ public class test {
         //         size--;
         //     }
         // }
-        // printText(size, list);     
+        // printText(size, list);
+        
+        // Tile path1 = new Tile(true, false, false, 0, null, swarm);
+        // Tile path2 = new Tile(false, false, false, 1, null, null);
+        // Tile path3 = new Tile(false, false, false, 2, null, null);
+        
+        // Hornet otherHornet = new Hornet(path3, 0, 0);
+        // System.out.println(otherHornet.getPosition());
+        // path1.createPath(path2, null);
+        // path1.addInsect(otherHornet);
+        // System.out.println(path1.getNumOfHornets());
+        // System.out.println(otherHornet.getPosition());
+        // System.out.println(path1.getHornets());
+        // path1.removeInsect(hornet);
+        // System.out.println(path1.getHornets());
+        // System.out.println(path1.getNumOfHornets());
+
     }
 
     // private static void printText(int size, Hornet[] list) {

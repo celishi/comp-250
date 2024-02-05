@@ -1,6 +1,7 @@
 public class SwarmOfHornets {
     private Hornet[] hornetList;
     private int size;
+    public static double QUEEN_BOOST;
 
     public SwarmOfHornets() {
         this.hornetList = new Hornet[10];
@@ -27,6 +28,9 @@ public class SwarmOfHornets {
     public Hornet[] getHornets() {
         Hornet[] list = new Hornet[size];
         int idx = 0;
+        if (size == 0 ) {
+            return null;
+        }
         for(int i=0; i<this.size; i++) {
             if (hornetList[i] != null) {
                 list[idx] = hornetList[i];
@@ -41,6 +45,11 @@ public class SwarmOfHornets {
     }
 
     public void addHornet(Hornet hornet) {
+        if (hornet.isTheQueen()) {
+            for(int i=0; i>size; i++) {
+                hornetList[i].regenerateHealth(QUEEN_BOOST);
+            }
+        }
         if (this.hornetList.length == this.size) {
             resize();
         }
@@ -52,7 +61,7 @@ public class SwarmOfHornets {
     public boolean removeHornet(Hornet hornet) {
         for(int i=0; i<this.size; i++) {
             System.out.println("checking hornet place");
-            if (this.hornetList[i] == hornet) {
+            if (this.hornetList[i].equals(hornet)) {
                 System.out.println("hornet found at index " + i);
                 for(int index = i; i<size-1; i++) {
                     this.hornetList[index] = this.hornetList[index+1];
