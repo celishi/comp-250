@@ -1,3 +1,5 @@
+package assignment1;
+
 public class SniperBee extends HoneyBee {
     private int atk;
     private int power;

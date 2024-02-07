@@ -1,3 +1,5 @@
+package assignment1;
+
 public abstract class Insect {
     private Tile tile;
     private int hp;

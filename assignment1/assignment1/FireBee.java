@@ -1,3 +1,5 @@
+package assignment1;
+
 public class FireBee extends HoneyBee {
     private int range;
     public static int BASE_HEALTH;

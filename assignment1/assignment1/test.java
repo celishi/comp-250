@@ -1,7 +1,9 @@
+package assignment1;
 public class test {
     public static void main(String[] args) {
         // SwarmOfHornets swarm = new SwarmOfHornets();
         // Hornet hornet = new Hornet(null, 0, 1);
+        // Hornet insect = new Hornet(new Tile(), 6, 5;)  
 
         // for(int i=1; i<5; i++) {
         //     swarm.addHornet(hornet);

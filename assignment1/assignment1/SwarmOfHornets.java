@@ -1,3 +1,5 @@
+package assignment1;
+
 public class SwarmOfHornets {
     private Hornet[] hornetList;
     private int size;

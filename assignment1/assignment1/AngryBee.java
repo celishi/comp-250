@@ -1,3 +1,5 @@
+package assignment1;
+
 public class AngryBee extends HoneyBee {
     private int atk;
     public static int BASE_HEALTH;

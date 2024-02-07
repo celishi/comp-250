@@ -1,3 +1,5 @@
+package assignment1;
+
 public class Tile {
     private int food;
     private boolean hiveBuilt;
@@ -16,13 +18,17 @@ public class Tile {
         this.food = 0;
         this.bee = null;
         this.hornets = null;
+        this.nestToHive = null;
+        this.hiveToNest = null;
     }
 
-    public Tile(boolean hiveBuilt, boolean nestBuilt, boolean partOfPath, int food, HoneyBee bee, SwarmOfHornets hornets) {
+    public Tile(int food, boolean hiveBuilt, boolean nestBuilt, boolean partOfPath, Tile nestToHive, Tile hiveToNest, HoneyBee bee, SwarmOfHornets hornets) {
+        this.food = food;
         this.hiveBuilt = hiveBuilt;
         this.nestBuilt = nestBuilt;
         this.partOfPath = partOfPath;
-        this.food = food;
+        this.nestToHive = nestToHive;
+        this.hiveToNest = hiveToNest;
         this.bee = bee;
         this.hornets = hornets;
     }

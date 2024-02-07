@@ -1,3 +1,5 @@
+package assignment1;
+
 public class Hornet extends Insect{
     private int atk;
     public static int BASE_FIRE_DMG;
