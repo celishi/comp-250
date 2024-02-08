@@ -5,9 +5,8 @@ public abstract class Insect {
     private int hp;
 
     public Insect(Tile tile, int hp) { //recheck for insect
-        if (tile != null) {
+        if (tile != null && tile.addInsect(this)) {
             this.tile = tile;
-            tile.addInsect(this);
         }
         else {
             throw new IllegalArgumentException("unable to add insect to tile");
@@ -46,6 +45,6 @@ public abstract class Insect {
     }
 
     public void regenerateHealth(double healthRegen) {
-        this.hp += (int) hp * healthRegen;
+        this.hp += this.hp * healthRegen;
     }
 }

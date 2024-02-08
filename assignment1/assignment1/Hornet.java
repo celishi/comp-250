@@ -12,14 +12,15 @@ public class Hornet extends Insect{
         this.isQueen = false;
     }
 
+    public String toString() {
+        return "attack is: " + this.atk;
+    }
+
     public boolean takeAction() {
         if (isQueen) {
             action();
-            return action();
         }
-        else {
-            return action();
-        }
+        return action();
     }
 
     private boolean action() {
@@ -34,9 +35,10 @@ public class Hornet extends Insect{
             bee.takeDamage(atk);
             return true;
         }
-        else if (bee == null && !tile.isHive()) {
-            tile.removeInsect(this);
+        else if (!tile.isHive()) {
             this.setPosition(tile.towardTheHive());
+            tile.removeInsect(this);
+            tile.towardTheHive().addInsect(this);
             return true;
         }
         else {

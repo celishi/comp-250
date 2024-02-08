@@ -30,9 +30,6 @@ public class SwarmOfHornets {
     public Hornet[] getHornets() {
         Hornet[] list = new Hornet[size];
         int idx = 0;
-        if (size == 0 ) {
-            return null;
-        }
         for(int i=0; i<this.size; i++) {
             if (hornetList[i] != null) {
                 list[idx] = hornetList[i];
@@ -55,7 +52,6 @@ public class SwarmOfHornets {
         if (this.hornetList.length == this.size && size != 0) {
             resize();
         }
-        System.out.println("added hornet at index " + size);
         this.hornetList[size] = hornet;
         this.size++;
     }

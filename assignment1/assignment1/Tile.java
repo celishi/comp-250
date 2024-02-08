@@ -1,5 +1,7 @@
 package assignment1;
 
+import java.util.Objects;
+
 public class Tile {
     private int food;
     private boolean hiveBuilt;
@@ -30,12 +32,11 @@ public class Tile {
         this.nestToHive = nestToHive;
         this.hiveToNest = hiveToNest;
         this.bee = bee;
-        this.hornets = hornets;
+        this.hornets = Objects.requireNonNullElseGet(hornets, SwarmOfHornets::new);
     }
 
     public String toString() {
-        String text = "food cost is: " + this.food;
-        return text;
+        return "food cost is: " + this.food;
     }
 
     public boolean isHive() {
@@ -77,7 +78,7 @@ public class Tile {
     }
 
     public void createPath(Tile tile1, Tile tile2) {
-        if ((tile1 == null || tile2 == null) && (!this.hiveBuilt || !this.nestBuilt)) {
+        if ((tile1 == null && !this.hiveBuilt) || (tile2 == null && !this.nestBuilt )) {
             throw new IllegalArgumentException("unable to create path, check if tiles are valid");
         }
         else {
@@ -114,12 +115,12 @@ public class Tile {
     }
 
     public boolean addInsect(Insect insect) {
-        if (insect instanceof HoneyBee && this.bee == null && !this.isHive()) {
+        if (insect instanceof HoneyBee && this.bee == null && !this.isNest()) {
             this.bee = (HoneyBee) insect;
             insect.setPosition(this);
             return true;
         }
-        else if(this.partOfPath == true && insect instanceof Hornet) {
+        else if(this.partOfPath && insect instanceof Hornet) {
             this.hornets.addHornet((Hornet) insect);
             insect.setPosition(this);
             return true;
@@ -130,12 +131,12 @@ public class Tile {
     }
 
     public boolean removeInsect(Insect insect) { //error?
-        if (insect instanceof Hornet && insect != null) {
+        if (insect instanceof Hornet) {
             hornets.removeHornet((Hornet) insect);
             insect.setPosition(null);
             return true;
         }
-        else if (insect instanceof HoneyBee && insect != null) {
+        else if (insect instanceof HoneyBee) {
             this.bee = null;
             insect.setPosition(null);
             return true;

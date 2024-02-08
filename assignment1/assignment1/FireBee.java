@@ -14,7 +14,7 @@ public class FireBee extends HoneyBee {
         Tile tile = this.getPosition().towardTheNest();
         if (this.getPosition().isOnThePath()) { //to come back when we have an answer
             for(int i = 0; i < range; i++) {
-                if (tile.getHornets() != null && !tile.isOnFire() && !tile.isHive()) {
+                if (tile.getHornets().length != 0 && !tile.isOnFire() && !tile.isHive()) {
                     tile.setOnFire();
                     return true;
                 }

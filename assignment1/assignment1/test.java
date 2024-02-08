@@ -1,21 +1,108 @@
 package assignment1;
+
+import java.lang.reflect.Field;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class test {
     public static void main(String[] args) {
-        Tile tile = new Tile();
-        Tile path1 = new Tile();
-        Tile path2 = new Tile();
-        tile.createPath(path1, path2);
-        // System.out.println(path2 == null);
-        Hornet hornet = new Hornet(tile, 43, 0);
-        Hornet queen = new Hornet(tile, 0, 0);
-        queen.promote();
-        tile.addInsect(hornet);
-        tile.removeInsect(hornet);
-        System.out.println(tile.getHornets());
-        System.out.println(tile.getHornet().getHealth());
-        // tile.addInsect(queen);
-        // hp = tile.getHornet().getHealth();
-        // System.out.println(hp);
+        //sniper bee death cleanup
+//            Tile tile1 = new Tile(0, false, false, true, null, null, null, null);
+//            Tile tile2 = new Tile(1, false, false, true, null, null, null, null);
+//            Tile tile3 = new Tile(2, false, false, true, null, null, null, null);
+//            tile1.buildNest();
+//            tile1.createPath(tile2, null);
+//            tile2.createPath(tile3, tile1);
+//            tile3.createPath(new Tile(3, false, false, true, null, null, null, null), tile2);
+//            SniperBee sniperBee = new SniperBee(tile3, 5,2);
+//            // Swarm: [hornet1, hornet2]
+//            Hornet hornet1 = new Hornet(tile2, 1, 0);
+//            Hornet hornet2 = new Hornet(tile2, 1, 1);
+//            System.out.println(tile2.getHornets()[0]);
+//            System.out.println(tile2.getHornets()[1]);
+//            sniperBee.takeAction();
+//            // sniperBee should kill hornet1 and hornet2
+//            sniperBee.takeAction();
+//            System.out.println("should be 0, is actually " + tile2.getNumOfHornets());
+
+        //queen regeneration
+//            Tile tile = new Tile();
+//            Tile placeholder = new Tile();
+//            tile.createPath(new Tile(), new Tile());
+//            placeholder.createPath(new Tile(), new Tile());
+//            Hornet hornet1 = new Hornet(tile, 10, 0);
+//            tile.addInsect(hornet1);
+//            Hornet hornet2 = new Hornet(tile, 10, 0);
+//            Hornet hornet3 = new Hornet(tile, 10, 0);
+//
+//            SwarmOfHornets.QUEEN_BOOST = 50.0/100;
+//            Hornet queen = new Hornet(new Tile(4, false, false, true, null, null, null, null),  10, 1);
+//            queen.promote();
+//            tile.addInsect(queen);
+//
+//            System.out.println("hornet1 health should be 15, actually is " + hornet1.getHealth());
+//            System.out.println("hornet2 health should be 15, actually is " + hornet2.getHealth());
+//            System.out.println("hornet3 health should be 15, actually is " + hornet3.getHealth());
+//            System.out.println("queen health should be 10, actually is " + queen.getHealth());
+
+        //queen double action
+//            Tile tile1 = new Tile(0, false, false, true, null, null, null, null);
+//            Tile tile2 = new Tile(1, false, false, true, null, null, null, null);
+//            Tile tile3 = new Tile(2, false, false, true, null, null, null, null);
+//            tile1.buildNest();
+//            tile1.createPath(tile2, null);
+//            tile2.createPath(tile3, tile1);
+//            tile3.createPath(new Tile(3, false, false, true, null, null, null, null), tile2);
+//            Hornet queen = new Hornet(new Tile(4, false, false, true, null, null, null, null),  5, 1);
+//            queen.promote();
+//            tile1.addInsect(queen);
+//            // queen should move two spots with this takeAction()
+//            queen.takeAction();
+//            System.out.println(queen.getPosition());
+
+        //add bee on top of each other
+    //        Tile tile = new Tile();
+    //        System.out.println(tile.getBee());
+    //        BusyBee bee1 = new BusyBee(tile);
+    //        System.out.println(bee1.equals(tile.getBee()));
+    //        BusyBee bee2;
+    //        System.out.println(bee1.equals(tile.getBee()));
+
+        //fire bee
+//            Tile previousTile1 = new Tile(0, false, false, false, null, null, null, null);
+//            Tile previousTile2 = new Tile(1, false, false, false, null, null, null, null);
+//            Tile previousTile3 = new Tile(2, false, false, false, null, null, null, null);
+//            Tile currentTile = new Tile(3, false, false, false, null, null, null, null);
+//            Tile nextTile = new Tile(4, false, false, false, null, null, null, null);
+//
+//            currentTile.createPath(nextTile, previousTile1);
+//            previousTile1.createPath(currentTile, previousTile2);
+//            previousTile2.createPath(previousTile1, previousTile3);
+//
+//            previousTile1.setOnFire();
+//            //previousTile2.setOnFire();
+//
+//            Hornet aHornet = new Hornet(previousTile3, 2, 2);
+//
+//            FireBee testFirebee = new FireBee(currentTile,2);
+//            boolean actionTaken = testFirebee.takeAction();
+
+//        Hornet hornet = null;
+//        System.out.println(hornet instanceof Hornet);
+
+        //queen health regen
+            // Tile tile = new Tile();
+            // Tile path1 = new Tile();
+            // Tile path2 = new Tile();
+            // Tile queenTile = new Tile();
+            // tile.createPath(path1, path2);
+            // SwarmOfHornets.QUEEN_BOOST = 5.0/100.0;
+            // Hornet hornet = new Hornet(tile, 43, 0);
+            // Hornet queen = new Hornet(queenTile, 0, 0);
+            // System.out.println(tile.getHornet().getHealth());
+            // queen.promote();
+            // tile.addInsect(queen);
+            // System.out.println(tile.getHornet().getHealth());
 
         // SwarmOfHornets swarm = new SwarmOfHornets();
         // System.out.println(swarm.getHornets());
