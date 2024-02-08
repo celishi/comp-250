@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SwarmTester",
+            "request": "launch",
+            "mainClass": "assignment1.SwarmTester",
+            "projectName": "comp-250_c82f4ca9"
+        },
+        {
+            "type": "java",
             "name": "test",
             "request": "launch",
             "mainClass": "assignment1.test",

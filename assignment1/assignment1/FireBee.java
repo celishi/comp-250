@@ -12,14 +12,19 @@ public class FireBee extends HoneyBee {
 
     public boolean takeAction() {
         Tile tile = this.getPosition().towardTheNest();
-        if (this.getPosition().isOnThePath()) { //to come back when we have an answer
-            for(int i = 0; i < range; i++) {
-                if (tile.getHornets().length != 0 && !tile.isOnFire() && !tile.isHive()) {
+        if (this.getPosition().isOnThePath()) {
+            for(int i = 0; i<range; i++) {
+                if (tile.getNumOfHornets() != 0 && !tile.isOnFire() && !tile.isHive()) {
                     tile.setOnFire();
                     return true;
                 }
                 else {
-                    tile = tile.towardTheNest();
+                    if (tile.towardTheNest() != null) {
+                        tile = tile.towardTheNest();
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
             return false;

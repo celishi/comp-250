@@ -1,11 +1,25 @@
 package assignment1;
 
-import java.lang.reflect.Field;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class test {
     public static void main(String[] args) {
+        //death by fire
+            // Hornet.BASE_FIRE_DMG = 500;
+            // // Path: nest -> tile1 -> tile2
+            // Tile hornetNest = new Tile(2, false, false, false, null, null, null, null);
+            // hornetNest.buildNest();
+            // Tile tile1 = new Tile(0, false, false, false, null, null, null, null);
+            // Tile tile2 = new Tile(1, false, false, false, null, null, null, null);
+            // hornetNest.createPath(tile1, null);
+            // tile1.createPath(tile2, hornetNest);
+            // // We check that if a hornet dies from fire on tile1 that it does not move to tile2
+            // Hornet dyingHornet = new Hornet(hornetNest, 1, 0);
+            // FireBee hornetKiller = new FireBee(tile2, 3);
+            // hornetKiller.takeAction();
+            // dyingHornet.takeAction();
+            // System.out.println("should be 0 but is actually " + tile2.getNumOfHornets());
+
         //sniper bee death cleanup
 //            Tile tile1 = new Tile(0, false, false, true, null, null, null, null);
 //            Tile tile2 = new Tile(1, false, false, true, null, null, null, null);

@@ -85,6 +85,16 @@ public class Tile {
             this.nestToHive = tile1;
             this.hiveToNest = tile2;
             this.partOfPath = true;
+
+            if (tile1 != null) {
+                tile1.partOfPath = true;
+                tile1.hiveToNest = this;
+            }
+
+            if (tile2 != null) {
+                tile2.partOfPath = true;
+                tile2.nestToHive = this;
+            }
         }
     }
 
