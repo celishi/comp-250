@@ -4,8 +4,8 @@ public abstract class Insect {
     private Tile tile;
     private int hp;
 
-    public Insect(Tile tile, int hp) {
-        if (tile != null && tile.addInsect(this)) {
+    public Insect(Tile tile, int hp) { //recheck for insect
+        if (tile != null) {
             this.tile = tile;
             tile.addInsect(this);
         }
@@ -46,6 +46,6 @@ public abstract class Insect {
     }
 
     public void regenerateHealth(double healthRegen) {
-        this.hp += Math.round(hp * healthRegen/100);
+        this.hp += (int) hp * healthRegen;
     }
 }

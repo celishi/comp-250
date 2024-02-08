@@ -15,18 +15,10 @@ public abstract class HoneyBee extends Insect {
 
     public void takeDamage(int dmg) {
         Tile tile = this.getPosition();
-        int hp = this.getHealth();
         if (tile.isHive()) {
-            dmg -= Math.round(dmg * HIVE_DMG_REDUCTION/100);
-            hp -= dmg;
+            dmg -= dmg * HIVE_DMG_REDUCTION;
         }
-        else {
-            hp -= dmg;
-        }
-
-        if (hp <= 0) {
-            tile.removeInsect(this);
-        }
+        super.takeDamage(dmg);
     }
     
 }

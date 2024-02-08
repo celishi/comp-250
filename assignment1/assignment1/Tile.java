@@ -17,7 +17,7 @@ public class Tile {
         this.partOfPath = false;
         this.food = 0;
         this.bee = null;
-        this.hornets = null;
+        this.hornets = new SwarmOfHornets();
         this.nestToHive = null;
         this.hiveToNest = null;
     }
@@ -77,11 +77,10 @@ public class Tile {
     }
 
     public void createPath(Tile tile1, Tile tile2) {
-        if ((tile1 == null || tile2 == null) && (!this.hiveBuilt && !this.nestBuilt)) {
+        if ((tile1 == null || tile2 == null) && (!this.hiveBuilt || !this.nestBuilt)) {
             throw new IllegalArgumentException("unable to create path, check if tiles are valid");
         }
         else {
-            System.out.println("made into a tile");
             this.nestToHive = tile1;
             this.hiveToNest = tile2;
             this.partOfPath = true;
@@ -121,7 +120,7 @@ public class Tile {
             return true;
         }
         else if(this.partOfPath == true && insect instanceof Hornet) {
-            hornets.addHornet((Hornet) insect);
+            this.hornets.addHornet((Hornet) insect);
             insect.setPosition(this);
             return true;
         }

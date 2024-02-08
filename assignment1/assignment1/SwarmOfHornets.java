@@ -48,23 +48,21 @@ public class SwarmOfHornets {
 
     public void addHornet(Hornet hornet) {
         if (hornet.isTheQueen()) {
-            for(int i=0; i>size; i++) {
+            for(int i=0; i<size; i++) {
                 hornetList[i].regenerateHealth(QUEEN_BOOST);
             }
         }
-        if (this.hornetList.length == this.size) {
+        if (this.hornetList.length == this.size && size != 0) {
             resize();
         }
-
+        System.out.println("added hornet at index " + size);
         this.hornetList[size] = hornet;
         this.size++;
     }
 
     public boolean removeHornet(Hornet hornet) {
         for(int i=0; i<this.size; i++) {
-            System.out.println("checking hornet place");
             if (this.hornetList[i].equals(hornet)) {
-                System.out.println("hornet found at index " + i);
                 for(int index = i; i<size-1; i++) {
                     this.hornetList[index] = this.hornetList[index+1];
                 }
@@ -73,7 +71,6 @@ public class SwarmOfHornets {
                 return true;
             }
         }
-        System.out.println("hornet not found");
         return false;
     }
 

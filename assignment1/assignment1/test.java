@@ -1,8 +1,34 @@
 package assignment1;
 public class test {
     public static void main(String[] args) {
+        Tile tile = new Tile();
+        Tile path1 = new Tile();
+        Tile path2 = new Tile();
+        tile.createPath(path1, path2);
+        // System.out.println(path2 == null);
+        Hornet hornet = new Hornet(tile, 43, 0);
+        Hornet queen = new Hornet(tile, 0, 0);
+        queen.promote();
+        tile.addInsect(hornet);
+        tile.removeInsect(hornet);
+        System.out.println(tile.getHornets());
+        System.out.println(tile.getHornet().getHealth());
+        // tile.addInsect(queen);
+        // hp = tile.getHornet().getHealth();
+        // System.out.println(hp);
+
         // SwarmOfHornets swarm = new SwarmOfHornets();
-        // Hornet hornet = new Hornet(null, 0, 1);
+        // System.out.println(swarm.getHornets());
+        // System.out.println(swarm.getFirstHornet());
+        // Tile tile = new Tile();
+        // Tile path1 = new Tile();
+        // Tile path2 = new Tile();
+        // tile.createPath(path1, path2);
+        // SwarmOfHornets swarm = tile.getHornets();
+        // Hornet hornet = new Hornet(tile, 0, 1);
+        // System.out.println(hornet);
+        // tile.addInsect(hornet);
+        // System.out.println(tile.getHornets());
         // Hornet insect = new Hornet(new Tile(), 6, 5;)  
 
         // for(int i=1; i<5; i++) {
