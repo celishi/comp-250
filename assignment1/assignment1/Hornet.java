@@ -36,10 +36,13 @@ public class Hornet extends Insect{
             return true;
         }
         else if (!tile.isHive()) {
-            this.setPosition(tile.towardTheHive());
-            tile.removeInsect(this);
-            tile.towardTheHive().addInsect(this);
-            return true;
+            if (this.getPosition() != null) {
+                tile.removeInsect(this);
+                this.setPosition(tile.towardTheHive());
+                tile.towardTheHive().addInsect(this);
+                return true;
+            }
+            return false;
         }
         else {
             return false;
