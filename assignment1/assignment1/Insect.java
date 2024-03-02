@@ -28,7 +28,7 @@ public abstract class Insect {
 
     public void takeDamage(int dmg) {
         this.hp -= dmg;
-        if (hp <= 0) {
+        if (hp < 1) {
             this.tile.removeInsect(this);
         }
     }

@@ -59,7 +59,7 @@ public class SwarmOfHornets {
     public boolean removeHornet(Hornet hornet) {
         for(int i=0; i<this.size; i++) {
             if (this.hornetList[i].equals(hornet)) {
-                for(int index = i; i<size-1; i++) {
+                for(int index = i; index<size-1; index++) {
                     this.hornetList[index] = this.hornetList[index+1];
                 }
                 this.hornetList[size-1] = null;

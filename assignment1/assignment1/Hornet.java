@@ -27,7 +27,7 @@ public class Hornet extends Insect{
         Tile tile = this.getPosition();
         HoneyBee bee = tile.getBee();
 
-        if(this.getPosition().isOnFire()) {
+        if(tile.isOnFire()) {
             this.takeDamage(BASE_FIRE_DMG);
         }
 
@@ -35,8 +35,7 @@ public class Hornet extends Insect{
             bee.takeDamage(atk);
             return true;
         }
-        else if (!tile.isHive()) {
-            this.setPosition(tile.towardTheHive());
+        else if (tile.towardTheHive() != null) {
             tile.removeInsect(this);
             tile.towardTheHive().addInsect(this);
             return true;
