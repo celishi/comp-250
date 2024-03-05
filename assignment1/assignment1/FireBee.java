@@ -11,16 +11,17 @@ public class FireBee extends HoneyBee {
     }
 
     public boolean takeAction() {
-        Tile tile = this.getPosition().towardTheNest();
-        if (this.getPosition().isOnThePath()) {
+        Tile tile = this.getPosition();
+        if (tile.isOnThePath()) {
+            Tile towardNest = tile.towardTheNest();
             for(int i = 0; i<range; i++) {
-                if (tile.getNumOfHornets() != 0 && !tile.isOnFire() && !tile.isHive()) {
-                    tile.setOnFire();
+                if (towardNest.getNumOfHornets() != 0 && !towardNest.isOnFire() && !towardNest.isHive()) {
+                    towardNest.setOnFire();
                     return true;
                 }
                 else {
-                    if (tile.towardTheNest() != null) {
-                        tile = tile.towardTheNest();
+                    if (towardNest.towardTheNest() != null) {
+                        towardNest = towardNest.towardTheNest();
                     }
                     else {
                         return false;

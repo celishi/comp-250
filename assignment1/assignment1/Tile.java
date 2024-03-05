@@ -78,10 +78,10 @@ public class Tile {
     }
 
     public void createPath(Tile tile1, Tile tile2) {
-        if ((tile1 == null && !this.hiveBuilt) || (tile2 == null && !this.nestBuilt )
-            || (tile1 != null && this.hiveBuilt) || (tile2 != null && this.nestBuilt )
-            || (tile1 == null && tile2 == null)
-        ) {
+        if ((tile1 == null && !this.hiveBuilt) || (tile2 == null && !this.nestBuilt ) 
+                || (tile1 == null && tile2 == null)
+                || (tile1 != null && this.hiveBuilt) || (tile2 != null && this.nestBuilt )
+            ) {
             throw new IllegalArgumentException("unable to create path, check if tiles are valid");
         }
         else {

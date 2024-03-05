@@ -6,10 +6,24 @@
     "configurations": [
         {
             "type": "java",
-            "name": "something",
+            "name": "Deck",
             "request": "launch",
-            "mainClass": "something",
-            "projectName": "comp-250_c82f4ca9"
+            "mainClass": "assignment2.Deck",
+            "projectName": "comp-250_94f9e06e"
+        },
+        {
+            "type": "java",
+            "name": "BeeColony",
+            "request": "launch",
+            "mainClass": "assignment1.BeeColony",
+            "projectName": "comp-250_94f9e06e"
+        },
+        {
+            "type": "java",
+            "name": "test",
+            "request": "launch",
+            "mainClass": "assignment1.test",
+            "projectName": "comp-250_94f9e06e"
         },
         {
             "type": "java",
