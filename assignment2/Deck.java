@@ -198,42 +198,34 @@ public class Deck {
 		next.prev = c;
 	}
 
-	public static void main(String[] args) {
-		Deck x = new Deck(3, 1);
-		// System.err.println(x.head.prev);
-		Deck y = new Deck(x);
-		System.err.println("tail of y is " + y.head.prev);
-		// x.addCard(y.head.prev);
-		// System.out.println("new card added");
-		// y.shuffle();
-		Card temp = y.head;
-		for(int i=0; i<y.numOfCards;i++){
-			System.out.println(temp);
-			temp = temp.next;
-		}
-		Card moved = y.head;
-		System.out.println("moving " + moved);
-		y.moveCard(moved, 2);
-		System.out.println("moved " + moved);
-		temp = y.head;
-		for(int i=0; i<y.numOfCards;i++){
-			System.out.println(temp);
-			temp = temp.next;
-		}
-		System.out.println("tail of y is " + y.head.prev);
-		// Joker locatedJoker = y.locateJoker("red");
-		// System.out.println(locatedJoker.toString());
-		// System.out.println("next to joker is: " + locatedJoker.next.toString());
-		// System.out.println("prev to joker is: " + locatedJoker.prev.toString());
-	}
-
 	/*
 	 * TODO: Performs a triple cut on the deck using the two input cards. You 
 	 * can assume that the input cards belong to the deck and the first one is 
 	 * nearest to the top of the deck. This method runs in O(1)
 	 */
 	public void tripleCut(Card firstCard, Card secondCard) {
-		/**** ADD CODE HERE ****/
+		Card first = this.head;
+		Card last = this.head.prev;
+		Card newTail = firstCard.prev;
+		if (firstCard == this.head && secondCard == this.head.prev){
+			//do nothing
+		}
+		else if (secondCard == this.head.prev){
+			this.head = firstCard;
+		}
+		else if (firstCard == this.head){
+			this.head = secondCard.next;
+
+		}         
+		else {
+			this.head = secondCard.next;
+			this.head.prev = newTail;
+			secondCard.next = first;
+			first.prev = secondCard;
+			last.next = firstCard;
+			firstCard.prev = last;
+			newTail.next = this.head;			
+		}
 	}
 
 	/*
@@ -242,7 +234,24 @@ public class Deck {
 	 * then the method should not do anything. This method runs in O(n).
 	 */
 	public void countCut() {
-		/**** ADD CODE HERE ****/
+		int count = this.head.prev.getValue() % this.numOfCards;
+		Card first = this.head;
+		Card tail = this.head.prev;
+
+		if (count != 0){
+			Card last = this.head;
+			for(int i=1; i<count; i++){
+				last = last.next;
+			}
+
+			first.prev = tail.prev;
+			tail.prev.next = first;
+			this.head = last.next;
+			last.next = tail;
+			this.head.prev = tail;
+			tail.next = this.head;
+			tail.prev = last;
+		}
 	}
 
 	/*
@@ -252,8 +261,19 @@ public class Deck {
 	 * the Card found. This method runs in O(n).
 	 */
 	public Card lookUpCard() {
-		/**** ADD CODE HERE ****/
-		return null;
+		int value = this.head.getValue() % this.numOfCards;
+		// System.out.println("value of last card is " + this.head.getValue());
+		// System.out.println("count is " + value);
+		Card card = this.head;
+		for (int i=0; i<value; i++){
+			card = card.next;
+		}
+		if(card instanceof Joker){
+			return null;
+		}
+		else{
+			return card;
+		}
 	}
 
 	/*
@@ -265,6 +285,41 @@ public class Deck {
 		return 0;
 	}
 
+	public static void main(String[] args) {
+		Deck x = new Deck(3, 3);
+		// System.err.println(x.head.prev);
+		Deck y = new Deck(x);
+		// System.err.println("tail of y is " + y.head.prev);
+		// x.addCard(y.head.prev);
+		// System.out.println("new card added");
+		y.shuffle();
+		// y.addCard(x.head.next.next.next);
+		Card temp = y.head;
+		for(int i=0; i<y.numOfCards;i++){
+			System.out.println(temp);
+			temp = temp.next;
+		}
+		Card card = y.lookUpCard();
+		System.out.println("looked up card is " + card);
+		// Card jokerR = y.locateJoker("red");
+		// Card jokerB = y.locateJoker("black");
+		// Card jokerR = y.head;
+		// Card jokerB = y.head.prev.prev.prev;
+
+		// System.out.println("doing count up");
+		// y.countCut();
+		// System.out.println("count up done ");
+		// temp = y.head;
+		// for(int i=0; i<y.numOfCards;i++){
+		// 	System.out.println(temp);
+		// 	temp = temp.next;
+		// }
+		// System.out.println("tail of y is " + y.head.prev);
+		// Joker locatedJoker = y.locateJoker("red");
+		// System.out.println(locatedJoker.toString());
+		// System.out.println("next to joker is: " + locatedJoker.next.toString());
+		// System.out.println("prev to joker is: " + locatedJoker.prev.toString());
+	}
 
 	public abstract class Card { 
 		public Card next;
