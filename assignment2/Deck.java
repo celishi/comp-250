@@ -1,7 +1,7 @@
 package assignment2;
 
 import java.util.Random;
-                                               
+
 public class Deck {
 	public static String[] suitsInOrder = {"clubs", "diamonds", "hearts", "spades"};
 	public static Random gen = new Random();
@@ -22,7 +22,7 @@ public class Deck {
 		}
 		else {
 			for(int i=0; i<numOfSuits;i++) {
-				String suit = Character.toString(suitsInOrder[i].charAt(0));
+				String suit = suitsInOrder[i];
 				for(int j=1;j<=numOfCardsPerSuit;j++) {
 					if (!setHead){
 						this.head = new PlayingCard(suit, j);
@@ -83,14 +83,28 @@ public class Deck {
 	/*
 	 * For testing purposes we need a default constructor.
 	 */
-	public Deck() {}
+	public Deck() {
+		this.head = null;
+		this.numOfCards = 0;
+	}
+
+	public void print(){
+		Card temp = this.head;
+		for(int i=0; i<this.numOfCards;i++){
+			System.out.println(temp);
+			temp = temp.next;
+		}
+	}
 
 	/* 
 	 * TODO: Adds the specified card at the bottom of the deck. This 
 	 * method runs in $O(1)$. 
 	 */
 	public void addCard(Card c) {
-		if(this.head.prev == null){
+		if(this.head == null){
+			this.head = c;
+		}
+		else if(this.head.prev == null){
 			this.head.next = c;
 			this.head.prev = c;
 			c.next = this.head;
@@ -130,8 +144,16 @@ public class Deck {
 
 
 		for(int i=0; i<copy.length;i++){
+			int y;
+			String suit = "";
 
-			String suit = String.valueOf(copy[i].charAt(copy[i].length() - 1));
+			for (y = 0; y < suitsInOrder.length; y++) {
+				if (copy[i].charAt(copy[i].length() - 1) == suitsInOrder[y].toUpperCase().charAt(0)){
+					suit = suitsInOrder[y];
+					break;
+				}
+			}
+
 			int rank = Character.getNumericValue(copy[i].charAt(0));
 			char x = Character.toUpperCase(copy[i].charAt(0));
 
@@ -188,14 +210,19 @@ public class Deck {
 		for(int i=0; i<p; i++){
 			card = card.next;
 		}
-
+		
 		Card next = card.next;
-		cardNext.prev = cardPrev;
-		cardPrev.next = cardNext;
-		card.next = c;
-		c.prev = card;
-		c.next = next;
-		next.prev = c;
+		if(next != c){
+			cardNext.prev = cardPrev;
+			cardPrev.next = cardNext;
+			card.next = c;
+			c.prev = card;
+			c.next = next;
+			next.prev = c;
+		}
+		else{
+
+		}
 	}
 
 	/*
@@ -281,44 +308,44 @@ public class Deck {
 	 * using this deck. This method runs in O(n).
 	 */
 	public int generateNextKeystreamValue() {
-		/**** ADD CODE HERE ****/
-		return 0;
-	}
+		Card lookedUp = null;
 
-	public static void main(String[] args) {
-		Deck x = new Deck(3, 3);
-		// System.err.println(x.head.prev);
-		Deck y = new Deck(x);
-		// System.err.println("tail of y is " + y.head.prev);
-		// x.addCard(y.head.prev);
-		// System.out.println("new card added");
-		y.shuffle();
-		// y.addCard(x.head.next.next.next);
-		Card temp = y.head;
-		for(int i=0; i<y.numOfCards;i++){
-			System.out.println(temp);
-			temp = temp.next;
+		while(lookedUp == null){
+			// System.out.println("locating red joker");
+			Card redJ = this.locateJoker("red");
+			this.moveCard(redJ, 1);
+			// this.print();
+			// System.out.println("locating black joker");
+			Card blackJ = this.locateJoker("black");
+			this.moveCard(blackJ, 2);
+			// this.print();
+	
+			// System.out.println("performing triple cut");
+			Card temp = this.head;
+			for(int i=0; i<this.numOfCards;i++){
+				if(temp instanceof Joker){
+					if(((Joker) temp).getColor() == "red"){
+						// System.out.println("red first");
+						this.tripleCut(redJ, blackJ);
+						break;
+					}
+					else if(((Joker) temp).getColor() == "black"){
+						// System.out.println("black first");
+						this.tripleCut(blackJ, redJ);
+						break;
+					}
+				}
+				temp = temp.next;
+			}
+			// this.print();
+	
+			// System.out.println("performing countcut");
+			this.countCut();
+			// this.print();
+			lookedUp = this.lookUpCard();
 		}
-		Card card = y.lookUpCard();
-		System.out.println("looked up card is " + card);
-		// Card jokerR = y.locateJoker("red");
-		// Card jokerB = y.locateJoker("black");
-		// Card jokerR = y.head;
-		// Card jokerB = y.head.prev.prev.prev;
 
-		// System.out.println("doing count up");
-		// y.countCut();
-		// System.out.println("count up done ");
-		// temp = y.head;
-		// for(int i=0; i<y.numOfCards;i++){
-		// 	System.out.println(temp);
-		// 	temp = temp.next;
-		// }
-		// System.out.println("tail of y is " + y.head.prev);
-		// Joker locatedJoker = y.locateJoker("red");
-		// System.out.println(locatedJoker.toString());
-		// System.out.println("next to joker is: " + locatedJoker.next.toString());
-		// System.out.println("prev to joker is: " + locatedJoker.prev.toString());
+		return lookedUp.getValue();
 	}
 
 	public abstract class Card { 
