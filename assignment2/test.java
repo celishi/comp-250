@@ -5,9 +5,11 @@ import assignment2.Deck.PlayingCard;
 
 public class test {
 	public static void main(String[] args) {
-		Deck x = new Deck(3, 2);
+		Deck x = new Deck(5, 2);
+		x.print();
+		Deck.gen.setSeed(10);
 		x.shuffle();
-		// x.print();
+		x.print();
 
 		SolitaireCipher test = new SolitaireCipher(x);
 		String msg = test.encode("Is that you, Bob?");

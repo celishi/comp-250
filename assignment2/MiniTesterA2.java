@@ -519,9 +519,13 @@ public class MiniTesterA2 {
         deck.addCard(rj);
         deck.addCard(bj);
 
+        deck.print();
+
         int seed = 10;
         Deck.gen.setSeed(seed);
         deck.shuffle();
+        System.out.println("shuffled");
+        deck.print();
 
         // expected result
         // 3C 3D AD 5C BJ 2C 2D 4D AC RJ 4C 5D

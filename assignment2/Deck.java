@@ -103,12 +103,8 @@ public class Deck {
 	public void addCard(Card c) {
 		if(this.head == null){
 			this.head = c;
-		}
-		else if(this.head.prev == null){
-			this.head.next = c;
-			this.head.prev = c;
-			c.next = this.head;
-			c.prev = this.head;
+			this.head.prev = this.head;
+			this.head.next = this.head;
 		}
 		else {
 			Card oldPrev = this.head.prev;
@@ -126,57 +122,26 @@ public class Deck {
 	 * number of cards in the deck.
 	 */
 	public void shuffle() {
-		String[] copy = new String[this.numOfCards];
+		Card[] copy = new Card[this.numOfCards];
 		Card temp = this.head;
-		boolean headAdded = false;
 
 		for(int i=0; i<this.numOfCards;i++){
-			copy[i] = temp.toString();
+			copy[i] = temp;
 			temp = temp.next;
 		}
 
-		for(int i=1; i<this.numOfCards - 1; i++) {
+		for(int i=copy.length - 1; i>0; i--) {
 			int num = gen.nextInt(i+1);
-			String placeHolder = copy[i];
+			Card placeHolder = copy[i];
 			copy[i] = copy[num];
 			copy[num] = placeHolder;
 		}
 
+		this.head = null;
+		this.numOfCards = 0;
 
 		for(int i=0; i<copy.length;i++){
-			int y;
-			String suit = "";
-
-			for (y = 0; y < suitsInOrder.length; y++) {
-				if (copy[i].charAt(copy[i].length() - 1) == suitsInOrder[y].toUpperCase().charAt(0)){
-					suit = suitsInOrder[y];
-					break;
-				}
-			}
-
-			int rank = Character.getNumericValue(copy[i].charAt(0));
-			char x = Character.toUpperCase(copy[i].charAt(0));
-
-			if(x == 'A'){
-				rank = 1;
-			}
-
-			if(!headAdded){
-				this.head = new PlayingCard(suit, rank);
-				this.numOfCards = 1;
-				headAdded = true;
-				continue;
-			}
-			else if(x == 'R'){
-				this.addCard(new Joker("red"));
-				continue;
-			}
-			else if(x == 'B'){
-				this.addCard(new Joker("black"));
-				continue;
-			}
-
-			this.addCard(new PlayingCard(suit, rank));
+			this.addCard(copy[i]);
 		}
 	}
 
