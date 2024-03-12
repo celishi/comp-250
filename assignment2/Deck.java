@@ -173,6 +173,9 @@ public class Deck {
 		Card cardPrev = c.prev;
 
 		for(int i=0; i<p; i++){
+			if(card.next == c){
+				i--;
+			}
 			card = card.next;
 		}
 		
