@@ -188,9 +188,6 @@ public class Deck {
 			c.next = next;
 			next.prev = c;
 		}
-		else{
-
-		}
 	}
 
 	/*
