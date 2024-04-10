@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BlockGame",
+            "request": "launch",
+            "mainClass": "assignment3.BlockGame",
+            "projectName": "comp-250_94f9e06e"
+        },
+        {
+            "type": "java",
+            "name": "testing",
+            "request": "launch",
+            "mainClass": "assignment3.testing",
+            "projectName": "comp-250_94f9e06e"
+        },
+        {
+            "type": "java",
             "name": "testing",
             "request": "launch",
             "mainClass": "assignment3.testing",

@@ -72,9 +72,23 @@ public class Block {
 	 * coordinates of the top left corner of the block.
 	 */
 	public void updateSizeAndPosition(int size, int xCoord, int yCoord) {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
+		if(size <=0){
+			throw new IllegalArgumentException("negative size");
+		}
+
+		this.size = size;
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+
+		if(this.color == null){
+			if(size % 2 != 0){
+				throw new IllegalArgumentException("cant divide size by 2");
+			}
+			this.children[0].updateSizeAndPosition(size/2, xCoord + size/2, yCoord);
+			this.children[1].updateSizeAndPosition(size/2, xCoord, yCoord);
+			this.children[2].updateSizeAndPosition(size/2, xCoord, yCoord + size/2);
+			this.children[3].updateSizeAndPosition(size/2, xCoord + size/2, yCoord + size/2);
+		}
 	}
 
 	/*
@@ -91,10 +105,17 @@ public class Block {
 	 * The order in which the blocks to draw appear in the list does NOT matter.
 	 */
 	public ArrayList<BlockToDraw> getBlocksToDraw() {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
-		return null;
+		ArrayList<BlockToDraw> list = new ArrayList<BlockToDraw>();
+		if(this.color == null){
+			for(int i=0; i<4; i++){
+				list.addAll(this.children[i].getBlocksToDraw());
+			}
+		}
+		else{
+			list.add(new BlockToDraw(this.color, this.xCoord, this.yCoord, this.size, 0));
+			list.add(new BlockToDraw(GameColors.FRAME_COLOR, this.xCoord, this.yCoord, this.size, 3));
+		}
+		return list;
 	}
 
 	/*
@@ -121,9 +142,21 @@ public class Block {
 	 * - if (x,y) is not within this Block, return null.
 	 */
 	public Block getSelectedBlock(int x, int y, int lvl) {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
+		boolean inRange = 
+			x>= this.xCoord && x<= this.xCoord + this.size/2 &&
+			y>= this.yCoord && y<= this.yCoord + this.size/2;
+		
+		if(lvl >= maxDepth || this.level >= lvl){
+			throw new IllegalArgumentException("level bigger than height");
+		}
+		if(inRange && this.level >= lvl){
+			return this;
+		}
+		else if(inRange && this.color == null && lvl > this.level){
+			for(int i=0; i<4; i++){
+				this.children[i].getSelectedBlock(x, y, lvl);
+			}
+		}
 		return null;
 	}
 
