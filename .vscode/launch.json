@@ -6,10 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CipherUI",
+            "name": "testing",
             "request": "launch",
-            "mainClass": "assignment2.CipherUI",
-            "projectName": "comp-250_94f9e06e"
+            "mainClass": "assignment3.testing",
+            "projectName": "comp-250_c82f4ca9"
         },
         {
             "type": "java",
