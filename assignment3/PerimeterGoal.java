@@ -12,10 +12,26 @@ public class PerimeterGoal extends Goal{
 	@Override
 	public int score(Block board) {
 		Color[][] flat = board.flatten();
-		for(ArrayList<Integer> i: {1, 2}){
-			for(int)
+		int count = 0;
+		int sz = flat.length - 1;
+
+		for(int y=0; y<flat.length; y++){
+			if(flat[0][y] == targetGoal){
+				count++;
+			}
+			if(flat[sz][y] == targetGoal && sz != 0){
+				count++;
+			}
 		}
-		return 0;
+		for(int x=0; x<flat.length; x++){
+			if(flat[x][0] == targetGoal){
+				count++;
+			}
+			if(flat[x][sz] == targetGoal && sz != 0){
+				count++;
+			}
+		}
+		return count;
 	}
 
 	@Override

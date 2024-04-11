@@ -14,7 +14,7 @@ public class Block {
 
 	private Block[] children; // {UR, UL, LL, LR}
 
-	public static Random gen = new Random(2);
+	public static Random gen = new Random();
 
 	/*
 	 * These two constructors are here for testing purposes.

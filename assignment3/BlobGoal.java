@@ -10,10 +10,20 @@ public class BlobGoal extends Goal{
 
 	@Override
 	public int score(Block board) {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
-		return 0;
+		Color[][] unitCells = board.flatten();
+		boolean[][] visited = new boolean[unitCells.length][unitCells.length];
+		int output;
+		int biggest = 0;
+
+		for(int x=0;x<unitCells.length;x++){
+			for(int y=0;y<unitCells.length;y++){
+				output = this.undiscoveredBlobSize(x, y, unitCells, visited);
+				if(output>biggest){
+					biggest = output;
+				}
+			}
+		}
+		return biggest;
 	}
 
 	@Override
@@ -25,7 +35,7 @@ public class BlobGoal extends Goal{
 
 	public int undiscoveredBlobSize(int i, int j, Color[][] unitCells, boolean[][] visited) {
 		int count = 0;
-		if(unitCells[i][j] == targetGoal){
+		if(unitCells[i][j] == targetGoal && !visited[i][j]){
 			if(!visited[i][j]){
 				count++;
 				visited[i][j] = true;
@@ -44,7 +54,9 @@ public class BlobGoal extends Goal{
 				count += undiscoveredBlobSize(i, j-1, unitCells, visited);
 			}
 		}
-		else return 0;
+		else{
+			return 0;
+		}
 		return count;
 
 	}
