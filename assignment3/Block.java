@@ -143,19 +143,36 @@ public class Block {
 	 */
 	public Block getSelectedBlock(int x, int y, int lvl) {
 		boolean inRange = 
-			x>= this.xCoord && x<= this.xCoord + this.size/2 &&
-			y>= this.yCoord && y<= this.yCoord + this.size/2;
+			x>= this.xCoord && x<= this.xCoord + this.size &&
+			y>= this.yCoord && y<= this.yCoord + this.size;
 		
-		if(lvl >= maxDepth || this.level >= lvl){
+		if(lvl > maxDepth || this.level > lvl){
 			throw new IllegalArgumentException("level bigger than height");
 		}
-		if(inRange && this.level >= lvl){
-			return this;
-		}
-		else if(inRange && this.color == null && lvl > this.level){
-			for(int i=0; i<4; i++){
-				this.children[i].getSelectedBlock(x, y, lvl);
+
+		if(inRange && this.color == null && lvl > this.level){
+			int index = 0;
+			int midX=this.xCoord+this.size/2;
+			int midY=this.yCoord+this.size/2;
+
+			if(x>=midX && y<midY){
+				index = 0;
 			}
+			else if(x<midX && y<midY){
+				index = 1;
+			}
+			else if(x<midX && y>=midY){
+				index = 2;
+			}
+			else if(x>=midX && y>=midY){
+				index = 3;
+			}
+
+			Block block = this.children[index].getSelectedBlock(x, y, lvl);
+			return block;
+		}
+		else if(inRange && this.level <= lvl){
+			return this;
 		}
 		return null;
 	}
@@ -169,9 +186,33 @@ public class Block {
 	 * 
 	 */
 	public void reflect(int direction) {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
+		if(direction != 0 && direction != 1){
+			throw new IllegalArgumentException("invalid direction");
+		}
+
+		if(direction == 1 && this.color == null){
+			swap(0, 1);
+			swap(2,3);
+		}
+		else if(direction == 0 && this.color == null){
+			swap(0, 3);
+			swap(1, 2);
+		}
+		this.updateSizeAndPosition(this.size, this.xCoord, this.yCoord);
+
+		if(this.color == null){
+			for(int i=0; i<4; i++){
+				if(this.children[i].color == null){
+					this.children[i].reflect(direction);
+				}
+			}
+		}
+	}
+
+	private void swap(int a, int b){
+		Block temp = this.children[a];
+		this.children[a] = this.children[b];
+		this.children[b] = temp;
 	}
 
 	/*
@@ -180,9 +221,29 @@ public class Block {
 	 * counterclockwise. If this Block has no children, do nothing.
 	 */
 	public void rotate(int direction) {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
+		if(direction != 0 && direction != 1){
+			throw new IllegalArgumentException("invalid direction");
+		}
+
+		if(direction == 0 && this.color == null){
+			swap(0, 1);
+			swap(2,3);
+			swap(2, 0);
+		}
+		else if(direction == 1 && this.color == null){
+			swap(0, 3);
+			swap(1, 0);
+			swap(1, 2);
+		}
+		this.updateSizeAndPosition(this.size, this.xCoord, this.yCoord);
+
+		if(this.color == null){
+			for(int i=0; i<4; i++){
+				if(this.children[i].color == null){
+					this.children[i].rotate(direction);
+				}
+			}
+		}
 	}
 
 	/*
@@ -200,9 +261,14 @@ public class Block {
 	 * 
 	 */
 	public boolean smash() {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
+		if(this.level != 0 && this.level<maxDepth){
+			this.children = new Block[]{
+				new Block (this.level + 1, this.maxDepth), new Block (this.level + 1, this.maxDepth), new Block (this.level + 1, this.maxDepth), new Block (this.level + 1, this.maxDepth)
+			};
+			this.color = null;
+			this.updateSizeAndPosition(this.size, this.xCoord, this.yCoord);
+			return true;
+		}
 		return false;
 	}
 
@@ -217,10 +283,40 @@ public class Block {
 	 * Block.
 	 */
 	public Color[][] flatten() {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
-		return null;
+		int sz = (int)Math.pow(2, this.maxDepth - this.level);
+		Color[][] arr = new Color[sz][sz];
+
+		if(this.color == null){
+			Color[][][] child = new Color[4][][];
+			for(int i=0; i<4; i++){
+				child[i] = this.children[i].flatten();
+			}
+			for(int x=0; x<sz; x++) {
+                for (int y=0; y<sz; y++) {
+					if (x < sz/2 && y >= sz/2){
+						arr[x][y] = child[0][x][y-sz/2];
+					}
+                    else if (x < sz/2 && y < sz/2){
+						arr[x][y] = child[1][x][y];
+					}
+                    else if (x >= sz/2 && y < sz/2){
+						arr[x][y] = child[2][x-sz/2][y];
+					}
+                    else if (x >= sz/2 && y >= sz/2){
+						arr[x][y] = child[3][x-sz/2][y-sz/2];
+					}
+                }
+            }
+			return arr;
+		}
+		else{
+			for(int x=0;x<sz;x++){
+                for(int y=0;y<sz;y++){
+                    arr[x][y]=this.color;
+                }
+			}
+			return arr;
+		}
 	}
 
 	// These two get methods have been provided. Do NOT modify them.
