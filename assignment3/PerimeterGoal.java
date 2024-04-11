@@ -1,6 +1,7 @@
 package assignment3;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class PerimeterGoal extends Goal{
 
@@ -10,9 +11,10 @@ public class PerimeterGoal extends Goal{
 
 	@Override
 	public int score(Block board) {
-		/*
-		 * ADD YOUR CODE HERE
-		 */
+		Color[][] flat = board.flatten();
+		for(ArrayList<Integer> i: {1, 2}){
+			for(int)
+		}
 		return 0;
 	}
 
