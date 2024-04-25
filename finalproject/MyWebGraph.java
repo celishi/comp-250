@@ -22,9 +22,8 @@ public class MyWebGraph {
 			vertexList.put(s, new WebVertex(s));
 			return true;
 		}
-		else{
-			return false;
-		}
+		
+		return false;
 	}
 	
 
@@ -40,19 +39,32 @@ public class MyWebGraph {
 			vertexList.get(t).addEdge(s);
 			return true;
 		}
+
 		return false;
 	}
 	
     // Returns a list of all urls in the graph
     public ArrayList<String> getVertices() {
-    	// TODO : Add code here
-    	return null;
+		ArrayList<String> vertices = new ArrayList<>();
+
+		for(String url: vertexList.keySet()){
+			vertices.add(url);
+		}
+
+    	return vertices;
     } 
     
     // Returns the list of pages that have links to v
     public ArrayList<String> getEdgesInto(String v) {
-    	// TODO : Add code here
-    	return null;
+    	ArrayList<String> edges = new ArrayList<>();
+
+		for(String url: vertexList.keySet()){
+			if(vertexList.get(url).containsEdge(v)){
+				edges.add(url);
+			}
+		}
+
+    	return edges;
     } 
     
     
