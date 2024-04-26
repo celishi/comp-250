@@ -22,7 +22,7 @@ public class MyWebGraph {
 			vertexList.put(s, new WebVertex(s));
 			return true;
 		}
-		
+
 		return false;
 	}
 	
@@ -35,9 +35,7 @@ public class MyWebGraph {
 	 */
 	public boolean addEdge(String s, String t) {
 		if(vertexList.containsKey(t) && vertexList.containsKey(s)){
-			vertexList.get(s).addEdge(t);
-			vertexList.get(t).addEdge(s);
-			return true;
+			return vertexList.get(s).addEdge(t) || vertexList.get(t).addEdge(s);
 		}
 
 		return false;

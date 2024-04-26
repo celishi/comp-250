@@ -22,7 +22,29 @@ public class SearchEngine {
 	 * 	This method will fit in about 30-50 lines (or less)
 	 */
 	public void crawlAndIndex(String url) throws Exception {
-		// TODO : Add code here
+		internet.addVertex(url);
+		internet.setVisited(url, true);
+		internet.setPageRank(url, parser.getPageRank(url));
+
+		ArrayList<String> words = parser.getContent(url);
+		for(String word: words){
+			word.toLowerCase();
+
+			if(!wordIndex.containsKey(word)){
+				wordIndex.put(word, new ArrayList<>());
+			}
+			if(!wordIndex.get(word).contains(url)){
+				wordIndex.get(word).add(url);
+			}
+		}
+
+		for(String neighbour: parser.getLinks(url)){
+			if(!internet.getVertices().contains(neighbour)){ // do we need !internet.getVisited(neighbour)?
+				crawlAndIndex(neighbour);
+				internet.addEdge(neighbour, url);
+			}
+		}
+
 	}
 	
 	

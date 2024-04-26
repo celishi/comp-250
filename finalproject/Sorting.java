@@ -42,8 +42,52 @@ public class Sorting {
 	 */
     public static <K, V extends Comparable<V>> ArrayList<K> fastSort(HashMap<K, V> results) {
     	ArrayList<K> sortedUrls = new ArrayList<>();
-    	return null;
+		sortedUrls.addAll(results.keySet());
+		sortedUrls = mergeSort(sortedUrls, results);
+    	return sortedUrls;
     }
-    
+
+	//implementation from lecture 17
+	private static <K, V extends Comparable<V>> ArrayList<K> mergeSort(ArrayList<K> list, HashMap<K, V> results){
+		if(list.size() <= 1){
+			return list;
+		}
+		else{
+			int mid = (list.size() - 1)/2;
+			ArrayList<K> list1 = new ArrayList<>(list.subList(0, mid));
+			ArrayList<K> list2= new ArrayList<>(list.subList(mid+1, list.size()-1));
+			list1 = mergeSort(list1, results);
+			list2 = mergeSort(list2, results);
+			return merge(list1, list2, results);
+		}
+	}
+
+	private static <K, V extends Comparable<V>> ArrayList<K> merge(ArrayList<K> list1, ArrayList<K> list2, HashMap<K, V> results){
+		ArrayList<K> list = new ArrayList<>();
+		int i = 0, j = 0, k = 0;
+        while (i < list1.size() && j < list2.size()) {
+            if (results.get(list1.get(i)).compareTo(results.get(list2.get(j))) >= 0) {
+                list.set(k, list1.get(i));
+            } else {
+                list.set(k, list2.get(j));
+            }
+			i++;
+			j++;
+			k++;
+        }
+
+        while (i < list1.size()) {
+            list.set(k, list1.get(i));
+			i++;
+			k++;
+        }
+        while (j < list2.size()) {
+            list.set(k, list2.get(j));
+			j++;
+			k++;
+        }
+
+		return list;
+	}    
 
 }
