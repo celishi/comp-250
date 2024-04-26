@@ -35,7 +35,7 @@ public class MyWebGraph {
 	 */
 	public boolean addEdge(String s, String t) {
 		if(vertexList.containsKey(t) && vertexList.containsKey(s)){
-			return vertexList.get(s).addEdge(t) || vertexList.get(t).addEdge(s);
+			return vertexList.get(s).addEdge(t);
 		}
 
 		return false;

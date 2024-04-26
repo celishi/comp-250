@@ -24,7 +24,7 @@ public class SearchEngine {
 	public void crawlAndIndex(String url) throws Exception {
 		internet.addVertex(url);
 		internet.setVisited(url, true);
-		internet.setPageRank(url, parser.getPageRank(url));
+		internet.setPageRank(url, 1);
 
 		ArrayList<String> words = parser.getContent(url);
 		for(String word: words){
@@ -59,7 +59,10 @@ public class SearchEngine {
 	 * This method will probably fit in about 30 lines.
 	 */
 	public void assignPageRanks(double epsilon) {
-		// TODO : Add code here
+		for(String url: internet.getVertices()){
+
+		}
+
 	}
 
 	
