@@ -1,87 +1,50 @@
-// package finalproject;
+public void crawlAndIndex(String url) throws Exception {
+    // HashMap to keep track of which urls have been visited
+    HashMap<String, Boolean> visited = new HashMap<>();
+    // ArrayList to keep track of vertices added to the web graph
+    ArrayList<String> verticesAdded = new ArrayList<>();
+    // Perform depth-first crawling
+    crawlDepthFirst(url, visited, verticesAdded);
+}
 
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.Map.Entry; // You may (or may not) need it to implement fastSort
+// Helper methods
+private void crawlDepthFirst(String url, HashMap<String, Boolean> visited, ArrayList<String> verticesAdded) throws Exception {
+    // Mark the current URL as visited
+    visited.put(url, true);
+    // Get content inside the current URL through the XmlParser class
+    ArrayList<String> urlContent = parser.getContent(url);
+    // Update the word index HashMap with the content
+    updateWordIndex(url, urlContent);
+    // Add the URL as a vertex to the web graph if it hasn't been added before
+    if (!verticesAdded.contains(url)) {
+        internet.addVertex(url);
+        verticesAdded.add(url);
+    }
+    // Get the links from the current webpage
+    ArrayList<String> links = parser.getLinks(url);
+    // Depth-first traversal
+    for (String neighbor : links) {
+        // If the neighbor has not been visited, recursively crawl it
+        if (!visited.containsKey(neighbor) || !visited.get(neighbor)) {
+            crawlDepthFirst(neighbor, visited, verticesAdded);
+        }
+        // Add an edge between the current URL and its neighbor
+        internet.addEdge(url, neighbor);
+    }
+}
 
-// public class Sorting {
-
-// 	/*
-// 	 * This method takes as input an HashMap with values that are Comparable. 
-// 	 * It returns an ArrayList containing all the keys from the map, ordered 
-// 	 * in descending order based on the values they mapped to. 
-// 	 * 
-// 	 * The time complexity for this method is O(n^2) as it uses bubble sort, where n is the number 
-// 	 * of pairs in the map. 
-// 	 */
-//     public static <K, V extends Comparable<V>> ArrayList<K> slowSort (HashMap<K, V> results) {
-//         ArrayList<K> sortedUrls = new ArrayList<K>();
-//         sortedUrls.addAll(results.keySet());	//Start with unsorted list of urls
-
-//         int N = sortedUrls.size();
-//         for(int i=0; i<N-1; i++){
-// 			for(int j=0; j<N-i-1; j++){
-// 				if(results.get(sortedUrls.get(j)).compareTo(results.get(sortedUrls.get(j+1))) < 0){
-// 					K temp = sortedUrls.get(j);
-// 					sortedUrls.set(j, sortedUrls.get(j+1));
-// 					sortedUrls.set(j+1, temp);					
-// 				}
-// 			}
-//         }
-//         return sortedUrls;                    
-//     }
-    
-    
-// 	/*
-// 	 * This method takes as input an HashMap with values that are Comparable. 
-// 	 * It returns an ArrayList containing all the keys from the map, ordered 
-// 	 * in descending order based on the values they mapped to. 
-// 	 * 
-// 	 * The time complexity for this method is O(n*log(n)), where n is the number 
-// 	 * of pairs in the map. 
-// 	 */
-// 	public static <K, V extends Comparable<V>> ArrayList<K> fastSort(HashMap<K, V> results) {
-//         ArrayList<K> urls = new ArrayList<K>();
-// 		urls.addAll(results.keySet());
-// 		K[] keysArray = (K[]) new Object[urls.size()];
-//         urls.toArray(keysArray);
-//         K[] temp = (K[]) new Object[urls.size()];
-
-// 		mergeSort(keysArray, temp, results, 0, urls.size() - 1);
-
-//         ArrayList<K> sortedUrls = new ArrayList<>();
-//         for (K url : keysArray) {
-//             sortedUrls.add(url);
-//         }
-//         return sortedUrls;                 
-//     }
- 
-//     private static <K, V extends Comparable<V>> void mergeSort(K[] keys, K[] temp, HashMap<K, V> results, int start, int end) {
-// 		if(end <= start) return;
-
-// 		int mid =  start + (end - start) / 2;
-// 		mergeSort(keys, temp, results, start, mid);
-// 		mergeSort(keys, temp, results, mid + 1, end);
-// 		merge(keys, temp, results, start, mid, end);
-//     }
-
-//     private static <K, V extends Comparable<V>> void merge(K[] keys, K[] temp, HashMap<K, V> results, int start, int mid, int end) {
-// 		int i = start;
-// 		int j = mid + 1;
-
-// 		for (int k = start; k <= end; k++) {
-//             temp[k] = keys[k];
-//         }
-
-//         for (int k = start; k <= end; k++) {
-//             if (i > mid) keys[k] = temp[j++];
-//             else if (j > end) keys[k] = temp[i++];
-//             else if (results.get(temp[j]).compareTo(results.get(temp[i])) > 0) {
-//                 keys[k] = temp[j++];
-//             }
-//             else keys[k] = temp[i++];
-//         }
-
-//     }	
-// }
+private void updateWordIndex(String url, ArrayList<String> urlContent) {
+    // Iterate through every word in the URL content
+    for (String word : urlContent) {
+        word = word.toLowerCase();
+        // If the word hasn't been seen before, add it with a new ArrayList
+        if (!wordIndex.containsKey(word)) {
+            wordIndex.put(word, new ArrayList<>());
+        }
+        // Add the URL to the list of URLs associated with the word if it's not already present
+        ArrayList<String> urls = wordIndex.get(word);
+        if (!urls.contains(url)) {
+            urls.add(url);
+        }
+    }
+}

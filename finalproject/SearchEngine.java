@@ -22,9 +22,11 @@ public class SearchEngine {
 	 * 	This method will fit in about 30-50 lines (or less)
 	 */
 	public void crawlAndIndex(String url) throws Exception {
-		internet.addVertex(url);
+		if(!internet.getVertices().contains(url)){
+			internet.addVertex(url);
+		}
 		internet.setVisited(url, true);
-		internet.setPageRank(url, 1);
+		internet.setPageRank(url, 1);//set to 1 for computing ranks
 
 		ArrayList<String> words = parser.getContent(url);
 		for(String word: words){
@@ -41,8 +43,8 @@ public class SearchEngine {
 		for(String neighbour: parser.getLinks(url)){
 			if(!internet.getVertices().contains(neighbour) || !internet.getVisited(neighbour)){ // do we need !internet.getVisited(neighbour)?
 				crawlAndIndex(neighbour);
-				internet.addEdge(neighbour, url);
 			}
+			internet.addEdge(neighbour, url);
 		}
 
 	}
@@ -66,20 +68,7 @@ public class SearchEngine {
 				previous.add(internet.getPageRank(url));
 			}
 
-			// doing ArrayList<Double> current = new ArrayList<>(); doesnt work for some reason
-			// i keep getting cpu running for too long and i dont know why, even thought this code
-			// does the exact same thing as the function computeRanks(vertices)
 			ArrayList<Double> current = computeRanks(vertices);
-			// ArrayList<Double> current = new ArrayList<>();
-			// for(String url: vertices){
-			// 	double rank = 0.0;
-			// 	for(String vertex: internet.getEdgesInto(url)){
-			// 		rank += internet.getPageRank(vertex)/internet.getOutDegree(vertex);
-			// 	}
-			// 	rank = 0.5 + 0.5*rank;
-			// 	internet.setPageRank(url, rank);
-			// 	current.add(rank);
-			// }
 
 			converged = true;
 			for(int i=0; i<vertices.size(); i++){
@@ -90,7 +79,6 @@ public class SearchEngine {
 				}
 			}
 		}
-
 	}
 	
 	/*
@@ -129,10 +117,15 @@ public class SearchEngine {
 	 * 
 	 * This method will probably fit in about 10-15 lines.
 	 */
-	public ArrayList<String> getResults(String query) {
-		ArrayList<String> urls = wordIndex.getOrDefault(query.toLowerCase(), new ArrayList<>());
-		HashMap<String, Double> list = new HashMap<>();
+	public ArrayList<String> getResults(String query) {	
+		ArrayList<String> urls;
 
+		if(wordIndex.containsKey(query.toLowerCase())) urls = wordIndex.get(query.toLowerCase());
+		else {
+			urls = new ArrayList<>();
+		}
+
+		HashMap<String, Double> list = new HashMap<>();
 		for(String url: urls){
 			list.put(url, internet.getPageRank(url));
 		}
