@@ -1,9 +1,6 @@
 package finalproject;
 
 import java.util.HashMap;
-
-import javax.management.monitor.StringMonitor;
-
 import java.util.ArrayList;
 
 public class SearchEngine {
@@ -60,23 +57,38 @@ public class SearchEngine {
 	 * This method will probably fit in about 30 lines.
 	 */
 	public void assignPageRanks(double epsilon) {
-		int smaller = 0;
 		ArrayList<String> vertices = internet.getVertices();
-		ArrayList<Double> init = computeRanks(vertices);
+		boolean converged = false;
 
-		while(smaller != vertices.size()){
-			smaller = 0;
-			ArrayList<Double> next = computeRanks(vertices);
-
-			for(int i=0; i<init.size(); i++){
-				smaller = 0;
-				double diff = Math.abs(init.get(i) - next.get(i));
-				if(diff < epsilon){
-					smaller++;
-				}
+		while(!converged){
+			ArrayList<Double> previous = new ArrayList<>();
+			for(String url: vertices){
+				previous.add(internet.getPageRank(url));
 			}
 
-			init = next;
+			// doing ArrayList<Double> current = new ArrayList<>(); doesnt work for some reason
+			// i keep getting cpu running for too long and i dont know why, even thought this code
+			// does the exact same thing as the function computeRanks(vertices)
+			ArrayList<Double> current = computeRanks(vertices);
+			// ArrayList<Double> current = new ArrayList<>();
+			// for(String url: vertices){
+			// 	double rank = 0.0;
+			// 	for(String vertex: internet.getEdgesInto(url)){
+			// 		rank += internet.getPageRank(vertex)/internet.getOutDegree(vertex);
+			// 	}
+			// 	rank = 0.5 + 0.5*rank;
+			// 	internet.setPageRank(url, rank);
+			// 	current.add(rank);
+			// }
+
+			converged = true;
+			for(int i=0; i<vertices.size(); i++){
+				double diff = Math.abs(previous.get(i) - current.get(i));
+				if(diff >= epsilon){
+					converged = false;
+					break;
+				}
+			}
 		}
 
 	}
@@ -95,8 +107,12 @@ public class SearchEngine {
 		for(String url: vertices){
 			double rank = 0.5 + 0.5*sumOutVertices(url);
 			list.add(rank);
-			internet.setPageRank(url, rank);
 		}
+
+		for(int i = 0; i<vertices.size(); i++){
+			internet.setPageRank(vertices.get(i), list.get(i));
+		}
+
 		return list;
 	}
 

@@ -1,7 +1,6 @@
 package finalproject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry; // You may (or may not) need it to implement fastSort
 
@@ -41,80 +40,46 @@ public class Sorting {
 	 * The time complexity for this method is O(n*log(n)), where n is the number 
 	 * of pairs in the map. 
 	 */
-	// public static <K, V extends Comparable<V>> ArrayList<K> fastSort(HashMap<K, V> results) {
-    //     ArrayList<K> urls = new ArrayList<K>();
-	// 	K[] keysArray = urls.toArray((K[]) new Object[urls.size()]);
+    public static <K, V extends Comparable<V>> ArrayList<K> fastSort(HashMap<K, V> results) {
+        ArrayList<K> urls = new ArrayList<K>();
+		urls.addAll(results.keySet());
 
-	// 	mergeSort(keysArray, results, 0, keysArray.length - 1);
-	// 	urls.clear();
-    //     urls.addAll(Arrays.asList(keysArray));
+		mergeSort(urls, results, 0, urls.size() - 1);
 
-    //     return urls;                    
-    // }
+        return urls;                    
+    }
  
-    // private static <K, V extends Comparable<V>> void mergeSort(K[] keys, HashMap<K, V> results, int start, int end) {
-	// 	if(start < end){
-	// 		int mid = start + (start - end) / 2;
-	// 		mergeSort(keys, results, start, mid);
-	// 		mergeSort(keys, results, mid + 1, end);
-	// 		merge(keys, results, start, mid, end);
-	// 	}
-    // }
+    private static <K, V extends Comparable<V>> void mergeSort(ArrayList<K> keys, HashMap<K, V> results, int start, int end) {
+		if(end <= start) return;
 
-    // private static <K, V extends Comparable<V>> void merge(K[] keys, HashMap<K, V> results, int start, int mid, int end) {
-    //     K[] temp = Arrays.copyOf(keys, keys.length);
-	// 	int i = 0, j = 0, k = 0;
+		int mid = (start + end) / 2;
+		mergeSort(keys, results, start, mid);
+		mergeSort(keys, results, mid + 1, end);
+		merge(keys, results, start, mid, end);
+    }
 
-    //     while (i < mid && j < end) {
-    //         if (results.get(temp[i]).compareTo(results.get(temp[j])) >= 0) {
-    //             keys[k++] = temp[i++];
-    //         } else {
-    //             keys[k++] = temp[i++];
-    //         }
-    //     }
+    private static <K, V extends Comparable<V>> void merge(ArrayList<K> keys, HashMap<K, V> results, int start, int mid, int end) {
+        ArrayList<K> temp = new ArrayList<>();
+		int i = start;
+		int j = mid + 1;
 
-    //     while (i <= mid) {
-    //         keys[k++] = temp[i++];
-    //     }
-    //     while (j <= end) {
-    //         keys[k++] = temp[i++];
-    //     }
-    // }
-	public static <K, V extends Comparable<V>> ArrayList<K> fastSort(HashMap<K, V> results) {
-		ArrayList<K> sortedUrls = new ArrayList<>(results.keySet()); // Start with unsorted list of urls
-		K[] keysArray = sortedUrls.toArray((K[]) new Object[sortedUrls.size()]); // Convert ArrayList to array
-		mergeSort(keysArray, results, 0, keysArray.length - 1); // Sort the array
-		sortedUrls.clear(); // Clear the existing list
-		sortedUrls.addAll(Arrays.asList(keysArray)); // Add sorted keys back to the list
-		return sortedUrls;                    
-	}
-	
-	private static <K, V extends Comparable<V>> void mergeSort(K[] keys, HashMap<K, V> results, int low, int high) {
-		if (low < high) {
-			int mid = low + (high - low) / 2;
-			mergeSort(keys, results, low, mid); // Sort left half
-			mergeSort(keys, results, mid + 1, high); // Sort right half
-			merge(keys, results, low, mid, high); // Merge the sorted halves
+        while (i <= mid && j <= end) {
+            if (results.get(keys.get(i)).compareTo(results.get(keys.get(j))) <= 0) {
+                temp.add(keys.get(j++));
+            } else {
+                temp.add(keys.get(i++));
+            }
+        }
+
+        while (i <= mid) {
+            temp.add(keys.get(i++));
+        }
+        while (j <= end) {
+			temp.add(keys.get(j++));
+        }
+
+		for (int k = start; k <= end; k++) {
+			keys.set(k, temp.get(k - start));
 		}
-	}
-	
-	private static <K, V extends Comparable<V>> void merge(K[] keys, HashMap<K, V> results, int low, int mid, int high) {
-		K[] temp = Arrays.copyOf(keys, keys.length);
-	
-		int i = low, j = mid + 1, k = low;
-		while (i <= mid && j <= high) {
-			if (results.get(temp[i]).compareTo(results.get(temp[j])) <= 0) {
-				keys[k++] = temp[i++];
-			} else {
-				keys[k++] = temp[j++];
-			}
-		}
-		while (i <= mid) {
-			keys[k++] = temp[i++];
-		}
-		while (j <= high) {
-			keys[k++] = temp[j++];
-		}
-	}
-	
+    }	
 }
