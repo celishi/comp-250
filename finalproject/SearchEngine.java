@@ -30,7 +30,7 @@ public class SearchEngine {
 
 		ArrayList<String> words = parser.getContent(url);
 		for(String word: words){
-			word.toLowerCase();
+			word = word.toLowerCase();
 
 			if(!wordIndex.containsKey(word)){
 				wordIndex.put(word, new ArrayList<>());
@@ -40,11 +40,12 @@ public class SearchEngine {
 			}
 		}
 
-		for(String neighbour: parser.getLinks(url)){
-			if(!internet.getVertices().contains(neighbour) || !internet.getVisited(neighbour)){ // do we need !internet.getVisited(neighbour)?
+		ArrayList<String> links = parser.getLinks(url);
+		for(String neighbour: links){
+			if(!internet.getVisited(neighbour)){ // do we need !internet.getVisited(neighbour)?
 				crawlAndIndex(neighbour);
 			}
-			internet.addEdge(neighbour, url);
+			internet.addEdge(url, neighbour);
 		}
 
 	}
